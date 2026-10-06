@@ -1,0 +1,530 @@
+{
+  "storyId": "CLUBE-01",
+  "gatheredAt": "2026-10-06T00:10:46Z",
+  "source": "user",
+  "gatheredBy": "@pm",
+  "elicitationVersion": "2.0",
+  "scope": "Jornadas e requisitos funcionais do sistema de um clube de futebol, derivados das personas em PERSONAS.md. Nenhuma tecnologia foi selecionada.",
+  "priorityPolicy": "P1 indica requisito previsto no escopo inicial. A priorizacao relativa entre requisitos permanece para refinamento.",
+  "journeys": [
+    {
+      "id": "JRN-01",
+      "persona": "Administrador — Rafael Oliveira",
+      "goal": "Manter partidas, resultados, notícias, ingressos e permissões organizados e atualizados.",
+      "steps": [
+        {
+          "step": "Gerenciar partidas",
+          "frontend": "Apresenta os campos de data, horário e local e permite cadastrar, editar ou excluir uma partida; informa validações, erros e confirmação da operação.",
+          "backend": "Verifica a permissão administrativa, valida os dados recebidos e persiste a operação autorizada.",
+          "outcome": "A partida fica cadastrada ou atualizada e suas informações podem ser consultadas no sistema."
+        },
+        {
+          "step": "Atualizar resultado",
+          "frontend": "Permite localizar a partida e informar ou atualizar seu resultado, exibindo o resultado da operação.",
+          "backend": "Verifica a permissão e registra o resultado associado à partida.",
+          "outcome": "O resultado atualizado fica disponível para consulta pelo torcedor."
+        },
+        {
+          "step": "Publicar notícia",
+          "frontend": "Permite cadastrar, editar e publicar notícias e apresenta confirmação ou indicação dos dados que precisam de correção.",
+          "backend": "Verifica a permissão, valida e registra a notícia e seu estado de publicação.",
+          "outcome": "A notícia publicada fica disponível para consulta."
+        },
+        {
+          "step": "Configurar ingressos e consultar vendas",
+          "frontend": "Permite definir setores, valores e quantidades disponíveis e consultar informações das vendas realizadas.",
+          "backend": "Verifica permissões, mantém os dados de disponibilidade e venda associados à partida e fornece as informações de vendas autorizadas.",
+          "outcome": "O administrador consulta a disponibilidade configurada e as vendas realizadas."
+        },
+        {
+          "step": "Gerenciar usuários e permissões",
+          "frontend": "Permite consultar usuários e atribuir ou alterar suas permissões; informa o resultado da operação.",
+          "backend": "Verifica a autorização para alterar permissões e aplica as permissões definidas às operações administrativas.",
+          "outcome": "Somente usuários autorizados podem executar funções administrativas."
+        }
+      ],
+      "exceptions": [
+        "Dados incorretos ou incompletos devem ser indicados sem confirmar a operação.",
+        "Uma operação sem permissão deve ser recusada e não pode alterar os dados."
+      ]
+    },
+    {
+      "id": "JRN-02",
+      "persona": "Torcedor — Lucas Santos",
+      "goal": "Encontrar rapidamente informações atuais sobre partidas, resultados e notícias, principalmente pelo celular.",
+      "steps": [
+        {
+          "step": "Consultar partidas",
+          "frontend": "Apresenta as próximas partidas com data, horário e local e destaca qual é a próxima; permite consultar partidas anteriores.",
+          "backend": "Fornece as partidas e seus dados atuais para consulta.",
+          "outcome": "O torcedor localiza a próxima partida e consulta os dados do calendário."
+        },
+        {
+          "step": "Consultar resultados e notícias",
+          "frontend": "Apresenta resultados de partidas anteriores e notícias publicadas em uma navegação adequada a dispositivos móveis.",
+          "backend": "Fornece resultados e notícias publicadas, refletindo as atualizações realizadas pelo administrador.",
+          "outcome": "O torcedor acompanha informações atualizadas do clube."
+        },
+        {
+          "step": "Verificar alterações em partidas",
+          "frontend": "Apresenta um aviso no próprio sistema quando houver alteração de data, horário ou local.",
+          "backend": "Mantém os dados atualizados e disponibiliza o aviso associado à alteração.",
+          "outcome": "O torcedor consegue consultar a informação atualizada; canais externos não fazem parte do escopo definido."
+        }
+      ],
+      "exceptions": [
+        "Enquanto as informações são carregadas, o sistema deve indicar o estado de carregamento.",
+        "Se uma consulta falhar, o sistema deve informar que os dados não puderam ser carregados sem apresentar dados antigos como atuais."
+      ]
+    },
+    {
+      "id": "JRN-03",
+      "persona": "Cliente — Mariana Costa",
+      "goal": "Comprar ingresso com valor total transparente e confirmação confiável.",
+      "steps": [
+        {
+          "step": "Consultar opções de ingresso",
+          "frontend": "Apresenta partidas disponíveis para compra, setores, preços e disponibilidade.",
+          "backend": "Fornece opções e disponibilidade atualizadas para a partida.",
+          "outcome": "A cliente compara as opções disponíveis antes de selecionar."
+        },
+        {
+          "step": "Selecionar ingresso e revisar valor",
+          "frontend": "Permite selecionar o ingresso desejado e apresenta o valor total antes do pagamento.",
+          "backend": "Revalida disponibilidade e valor para a seleção antes de iniciar a compra.",
+          "outcome": "A cliente pode revisar a compra antes de confirmar o pagamento."
+        },
+        {
+          "step": "Realizar pagamento",
+          "frontend": "Apresenta o estado do pagamento: aprovado, recusado ou pendente; em caso de recusa, informa a situação e permite nova tentativa.",
+          "backend": "Processa o resultado do pagamento sem gerar cobrança duplicada para a mesma compra; não confirma pedidos nem disponibiliza ingressos enquanto o pagamento estiver pendente.",
+          "outcome": "A cliente recebe um estado claro, sem confirmação prematura ou cobrança duplicada."
+        },
+        {
+          "step": "Receber ingresso e acompanhar pedido",
+          "frontend": "Após a aprovação, apresenta a confirmação, o ingresso digital, as informações da partida e o histórico e status dos pedidos.",
+          "backend": "Confirma o pedido e disponibiliza o ingresso digital somente após a aprovação; fornece os pedidos associados à cliente.",
+          "outcome": "A cliente pode consultar a compra confirmada e acessar o ingresso digital."
+        }
+      ],
+      "exceptions": [
+        "Se o pagamento for recusado, a compra não é confirmada e a cliente recebe o estado da tentativa.",
+        "Se o pagamento estiver pendente, o pedido não é confirmado e o ingresso não é disponibilizado até a aprovação.",
+        "Se a disponibilidade se esgotar durante a compra, o sistema impede a venda acima do estoque e informa que o ingresso não está mais disponível.",
+        "Reenvios ou repetições da mesma solicitação de compra não podem produzir cobranças duplicadas."
+      ]
+    }
+  ],
+  "functional": [
+    {
+      "id": "FR-01",
+      "description": "O sistema deve permitir que um administrador autorizado cadastre, edite e exclua partidas, incluindo data, horário e local.",
+      "priority": "P1",
+      "rationale": "Rafael precisa manter o calendário do clube atualizado.",
+      "acceptance": [
+        "Dado um administrador autorizado, quando ele cadastra ou edita uma partida com os dados informados, então o sistema valida e confirma a operação.",
+        "Dado um usuário sem permissão administrativa, quando tenta alterar uma partida, então a operação é recusada e os dados permanecem inalterados."
+      ],
+      "journey": "JRN-01"
+    },
+    {
+      "id": "FR-02",
+      "description": "O sistema deve permitir que um administrador autorizado registre e atualize o resultado de uma partida.",
+      "priority": "P1",
+      "rationale": "Rafael administra os resultados e Lucas consulta partidas anteriores.",
+      "acceptance": [
+        "Dado um administrador autorizado, quando registra ou atualiza um resultado, então o sistema confirma a operação e disponibiliza o resultado atualizado para consulta."
+      ],
+      "journey": "JRN-01"
+    },
+    {
+      "id": "FR-03",
+      "description": "O sistema deve permitir que um administrador autorizado cadastre, edite e publique notícias do clube.",
+      "priority": "P1",
+      "rationale": "Rafael publica conteúdo e Lucas acompanha as notícias.",
+      "acceptance": [
+        "Dado um administrador autorizado, quando publica uma notícia válida, então ela fica disponível para consulta.",
+        "Dado um usuário sem permissão administrativa, quando tenta publicar ou editar uma notícia, então a operação é recusada."
+      ],
+      "journey": "JRN-01"
+    },
+    {
+      "id": "FR-04",
+      "description": "O sistema deve permitir que um administrador autorizado defina setores, valores e quantidades de ingressos disponíveis por partida.",
+      "priority": "P1",
+      "rationale": "Rafael organiza a oferta de ingressos e Mariana consulta as opções de compra.",
+      "acceptance": [
+        "Dado um administrador autorizado, quando configura setor, valor e quantidade para uma partida, então os dados ficam disponíveis para consulta e venda.",
+        "O sistema não confirma vendas que excedam a quantidade disponível."
+      ],
+      "journey": "JRN-01"
+    },
+    {
+      "id": "FR-05",
+      "description": "O sistema deve permitir que um administrador autorizado consulte informações das vendas realizadas.",
+      "priority": "P1",
+      "rationale": "Rafael precisa acompanhar a comercialização dos ingressos.",
+      "acceptance": [
+        "Dado um administrador autorizado, quando consulta as vendas, então o sistema apresenta as informações de vendas registradas."
+      ],
+      "journey": "JRN-01"
+    },
+    {
+      "id": "FR-06",
+      "description": "O sistema deve permitir que um administrador autorizado gerencie usuários e suas permissões e deve restringir operações administrativas conforme essas permissões.",
+      "priority": "P1",
+      "rationale": "Rafael gerencia acessos e precisa evitar alterações por usuários não autorizados.",
+      "acceptance": [
+        "Dado um usuário sem permissão para uma função administrativa, quando tenta executá-la, então o sistema recusa a operação e não altera os dados.",
+        "Dado um administrador autorizado a gerenciar permissões, quando altera uma permissão, então as operações subsequentes respeitam a permissão atualizada."
+      ],
+      "journey": "JRN-01"
+    },
+    {
+      "id": "FR-07",
+      "description": "O sistema deve validar os dados informados nas operações administrativas e indicar campos incorretos ou incompletos antes de confirmar a operação.",
+      "priority": "P1",
+      "rationale": "Reduz erros de cadastro e atende à expectativa de validação e feedback de Rafael.",
+      "acceptance": [
+        "Dado um formulário com informação inválida ou incompleta, quando o administrador tenta concluir a operação, então o sistema identifica o problema, não confirma a operação e informa como corrigir os dados."
+      ],
+      "journey": "JRN-01"
+    },
+    {
+      "id": "FR-08",
+      "description": "O sistema deve apresentar ao torcedor as próximas partidas com data, horário e local e facilitar a identificação da próxima partida.",
+      "priority": "P1",
+      "rationale": "Lucas precisa localizar rapidamente o próximo jogo, principalmente pelo celular.",
+      "acceptance": [
+        "Dado que há partidas futuras cadastradas, quando o torcedor consulta o calendário, então consegue identificar a próxima e consultar data, horário e local."
+      ],
+      "journey": "JRN-02"
+    },
+    {
+      "id": "FR-09",
+      "description": "O sistema deve permitir que o torcedor consulte resultados de partidas anteriores.",
+      "priority": "P1",
+      "rationale": "Acompanhar resultados é uma necessidade explícita de Lucas.",
+      "acceptance": [
+        "Dada uma partida com resultado registrado, quando o torcedor consulta os resultados, então o sistema apresenta o resultado associado à partida."
+      ],
+      "journey": "JRN-02"
+    },
+    {
+      "id": "FR-10",
+      "description": "O sistema deve permitir que o torcedor consulte notícias publicadas pelo clube.",
+      "priority": "P1",
+      "rationale": "Lucas acompanha notícias e novidades do clube.",
+      "acceptance": [
+        "Dada uma notícia publicada, quando o torcedor consulta as notícias, então o sistema apresenta seu conteúdo."
+      ],
+      "journey": "JRN-02"
+    },
+    {
+      "id": "FR-11",
+      "description": "O sistema deve refletir alterações de data, horário ou local de uma partida e apresentar um aviso sobre a alteração no próprio sistema.",
+      "priority": "P1",
+      "rationale": "Lucas precisa receber informações atualizadas sobre mudanças nos jogos.",
+      "acceptance": [
+        "Dado que uma partida foi alterada, quando o torcedor consulta a partida e os avisos no sistema, então encontra os dados atualizados e um aviso da alteração."
+      ],
+      "journey": "JRN-02"
+    },
+    {
+      "id": "FR-12",
+      "description": "O sistema deve apresentar à cliente as partidas disponíveis para compra, seus setores, preços e disponibilidade de ingressos.",
+      "priority": "P1",
+      "rationale": "Mariana precisa comparar opções antes de comprar.",
+      "acceptance": [
+        "Dada uma partida disponível para venda, quando a cliente consulta as opções, então o sistema apresenta setores, preços e disponibilidade atualizados."
+      ],
+      "journey": "JRN-03"
+    },
+    {
+      "id": "FR-13",
+      "description": "O sistema deve permitir que a cliente selecione o ingresso desejado e visualize o valor total antes de confirmar o pagamento.",
+      "priority": "P1",
+      "rationale": "Mariana exige transparência do valor antes da compra.",
+      "acceptance": [
+        "Dada uma opção de ingresso selecionada, quando a cliente avança para o pagamento, então o valor total é exibido antes de qualquer confirmação de pagamento.",
+        "O valor apresentado não pode mudar sem que a cliente seja informada antes de confirmar o pagamento."
+      ],
+      "journey": "JRN-03"
+    },
+    {
+      "id": "FR-14",
+      "description": "O sistema deve processar a tentativa de pagamento e apresentar à cliente se ela foi aprovada, recusada ou permanece pendente.",
+      "priority": "P1",
+      "rationale": "Mariana precisa saber claramente o estado da compra e do pagamento.",
+      "acceptance": [
+        "Dado um pagamento recusado, quando o sistema recebe o resultado, então informa que a compra não foi aprovada e permite uma nova tentativa.",
+        "Dado um pagamento pendente, quando o sistema recebe o resultado, então informa que a compra ainda não foi confirmada."
+      ],
+      "journey": "JRN-03"
+    },
+    {
+      "id": "FR-15",
+      "description": "O sistema deve confirmar o pedido e disponibilizar o ingresso digital somente após a aprovação do pagamento.",
+      "priority": "P1",
+      "rationale": "Mariana precisa de confirmação confiável e do ingresso após a aprovação.",
+      "acceptance": [
+        "Dado um pagamento aprovado, quando o sistema confirma a compra, então apresenta a confirmação e disponibiliza o ingresso digital.",
+        "Dado um pagamento pendente ou recusado, então o sistema não confirma o pedido nem disponibiliza o ingresso digital."
+      ],
+      "journey": "JRN-03"
+    },
+    {
+      "id": "FR-16",
+      "description": "O sistema deve impedir que uma mesma compra gere cobranças duplicadas, inclusive diante da repetição de uma solicitação.",
+      "priority": "P1",
+      "rationale": "Evita uma dificuldade crítica relatada por Mariana.",
+      "acceptance": [
+        "Dada uma solicitação de compra repetida para a mesma tentativa, quando o sistema a processa, então não gera uma segunda cobrança para a mesma compra."
+      ],
+      "journey": "JRN-03"
+    },
+    {
+      "id": "FR-17",
+      "description": "O sistema deve revalidar a disponibilidade antes de concluir a venda e impedir que a quantidade vendida exceda o estoque configurado.",
+      "priority": "P1",
+      "rationale": "Mantém a disponibilidade confiável mesmo se ela mudar durante o processo de compra.",
+      "acceptance": [
+        "Dado que o ingresso selecionado deixou de estar disponível antes da conclusão, quando a cliente tenta finalizar a compra, então o sistema não confirma a venda e informa a indisponibilidade."
+      ],
+      "journey": "JRN-03"
+    },
+    {
+      "id": "FR-18",
+      "description": "O sistema deve permitir que a cliente consulte o histórico e o status de seus pedidos e acesse os ingressos digitais de compras aprovadas.",
+      "priority": "P1",
+      "rationale": "Mariana precisa localizar pedidos e ingressos após a compra.",
+      "acceptance": [
+        "Dado um pedido da cliente, quando ela consulta seus pedidos, então consegue ver seu status.",
+        "Dado um pedido aprovado, quando a cliente o consulta, então consegue acessar o ingresso digital associado."
+      ],
+      "journey": "JRN-03"
+    },
+    {
+      "id": "FR-19",
+      "description": "O sistema deve apresentar confirmação ou erro claro após operações administrativas.",
+      "priority": "P1",
+      "rationale": "Rafael precisa saber se uma operação foi concluída ou exige correção.",
+      "acceptance": [
+        "Quando uma operação administrativa é concluída ou recusada, então o sistema informa o resultado sem indicar sucesso quando a operação falhou."
+      ],
+      "journey": "JRN-01"
+    }
+  ],
+  "nonFunctional": [
+    {
+      "id": "NFR-01",
+      "category": "security",
+      "description": "As funções administrativas devem ser acessíveis somente a usuários com permissão correspondente; autorização deve ser respeitada nas operações que alteram informações.",
+      "source": "Personas Administrador e decisão de elicitação sobre papéis."
+    },
+    {
+      "id": "NFR-02",
+      "category": "reliability",
+      "description": "As informações de partidas, disponibilidade, pedidos, pagamentos e ingressos devem manter consistência; uma tentativa pendente ou recusada não pode ser apresentada como compra confirmada.",
+      "source": "Expectativas de integridade dos dados e confiabilidade da compra."
+    },
+    {
+      "id": "NFR-03",
+      "category": "usability",
+      "description": "As jornadas de consulta e compra devem ser utilizáveis em dispositivos móveis, e as informações principais devem ser localizáveis com poucos passos.",
+      "source": "Personas Torcedor e Cliente."
+    },
+    {
+      "id": "NFR-04",
+      "category": "performance",
+      "description": "O sistema deve manter desempenho adequado em períodos de grande acesso, especialmente próximo ou durante partidas importantes.",
+      "source": "Expectativa da persona Torcedor; métrica quantitativa ainda não definida."
+    }
+  ],
+  "constraints": [
+    {
+      "id": "CON-01",
+      "type": "business",
+      "description": "Esta especificação cobre um sistema para um clube de futebol, conforme o contexto fornecido."
+    },
+    {
+      "id": "CON-02",
+      "type": "technical",
+      "description": "Nenhuma tecnologia, plataforma, integração ou arquitetura deve ser escolhida nesta etapa."
+    },
+    {
+      "id": "CON-03",
+      "type": "business",
+      "description": "Avisos sobre alterações de partidas são apresentados no próprio sistema; canais externos não foram definidos."
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-01",
+      "description": "Uma mesma pessoa pode exercer os papéis de torcedor e cliente; permissões administrativas são controladas separadamente.",
+      "risk": "low"
+    },
+    {
+      "id": "ASM-02",
+      "description": "As prioridades P1 indicam inclusão no escopo inicial, não uma ordem relativa de implementação.",
+      "risk": "low"
+    }
+  ],
+  "domainModel": [
+    {
+      "entity": "Usuário",
+      "description": "Identidade que consulta informações, realiza compras ou executa ações administrativas segundo seus papéis e permissões.",
+      "relationships": ["Pode exercer os papéis de torcedor e cliente simultaneamente", "Pode ter permissões administrativas atribuídas"]
+    },
+    {
+      "entity": "Partida",
+      "description": "Evento do clube com data, horário e local; pode ter resultado e oferta de ingressos.",
+      "relationships": ["Pode ter um resultado registrado", "Pode ter notícias relacionadas", "Pode ter setores e disponibilidade de ingressos"]
+    },
+    {
+      "entity": "Notícia",
+      "description": "Conteúdo cadastrado e publicado por um administrador para consulta dos torcedores.",
+      "relationships": ["É publicada por ação administrativa", "Pode estar relacionada ao clube ou a uma partida"]
+    },
+    {
+      "entity": "Setor e disponibilidade de ingressos",
+      "description": "Oferta de ingressos associada à partida, com setor, valor e quantidade disponível.",
+      "relationships": ["Pertence à oferta de uma partida", "É consumida por pedidos aprovados"]
+    },
+    {
+      "entity": "Pedido",
+      "description": "Registro da tentativa ou compra de ingresso, com status e valor total apresentados à cliente.",
+      "relationships": ["É associado à cliente", "Possui resultado de pagamento", "Pode disponibilizar ingresso digital após aprovação"]
+    },
+    {
+      "entity": "Ingresso digital",
+      "description": "Ingresso consultável pela cliente após aprovação do pagamento.",
+      "relationships": ["É associado a um pedido aprovado e a uma partida"]
+    }
+  ],
+  "interactions": [
+    {
+      "id": "INT-01",
+      "trigger": "Administrador inicia uma operação de gestão.",
+      "flow": "Selecionar operação → preencher ou revisar dados → validar autorização e dados → confirmar a operação → receber confirmação ou erro.",
+      "description": "O frontend apresenta os formulários e o resultado; o backend verifica permissões, valida e registra alterações autorizadas.",
+      "states": ["carregando dados", "formulário válido", "dados inválidos ou incompletos", "sem permissão", "operação concluída", "falha na operação"]
+    },
+    {
+      "id": "INT-02",
+      "trigger": "Torcedor consulta informações do clube.",
+      "flow": "Abrir consulta → identificar próxima partida → consultar calendário, resultados, notícias ou aviso de alteração.",
+      "description": "O frontend organiza informações para consulta móvel; o backend fornece dados atuais e avisos internos de alterações.",
+      "states": ["carregando", "dados disponíveis", "nenhum dado disponível", "falha ao carregar"]
+    },
+    {
+      "id": "INT-03",
+      "trigger": "Cliente inicia uma compra de ingresso.",
+      "flow": "Consultar partidas e setores → selecionar ingresso → revisar valor total → enviar pagamento → receber status → acessar pedido e ingresso após aprovação.",
+      "description": "O frontend exibe opções, valor e status; o backend revalida estoque, processa o resultado do pagamento, evita cobrança duplicada e libera ingresso somente após aprovação.",
+      "states": ["consultando disponibilidade", "disponível", "indisponível", "aguardando pagamento", "pagamento pendente", "pagamento recusado", "compra aprovada", "falha na consulta ou processamento"]
+    }
+  ],
+  "edgeCases": [
+    {
+      "id": "EC-01",
+      "scenario": "Usuário sem permissão tenta executar uma operação administrativa.",
+      "handling": "Recusar a operação, não alterar dados e informar que a ação não foi autorizada.",
+      "severity": "high"
+    },
+    {
+      "id": "EC-02",
+      "scenario": "Dados administrativos estão inválidos ou incompletos.",
+      "handling": "Indicar os dados a corrigir e não confirmar a operação.",
+      "severity": "medium"
+    },
+    {
+      "id": "EC-03",
+      "scenario": "Pagamento recusado ou pendente.",
+      "handling": "Informar o status; permitir nova tentativa quando recusado; manter pedido não confirmado e ingresso indisponível à cliente enquanto pendente.",
+      "severity": "high"
+    },
+    {
+      "id": "EC-04",
+      "scenario": "A disponibilidade se esgota entre a consulta e a conclusão da compra.",
+      "handling": "Revalidar a disponibilidade, impedir venda acima do estoque e informar que o ingresso não está disponível.",
+      "severity": "high"
+    },
+    {
+      "id": "EC-05",
+      "scenario": "A mesma solicitação de compra é repetida.",
+      "handling": "Não gerar uma cobrança duplicada para a mesma compra.",
+      "severity": "critical"
+    },
+    {
+      "id": "EC-06",
+      "scenario": "Falha ao carregar informações de partidas, notícias ou pedidos.",
+      "handling": "Informar que a consulta falhou e não apresentar dados antigos como atuais.",
+      "severity": "medium"
+    }
+  ],
+  "terminology": [
+    {
+      "term": "partida",
+      "definition": "Jogo do clube, com data, horário, local e, após sua realização, resultado.",
+      "synonyms": ["jogo"],
+      "avoid": []
+    },
+    {
+      "term": "torcedor",
+      "definition": "Pessoa que consulta partidas, resultados, notícias e avisos do clube.",
+      "synonyms": [],
+      "avoid": []
+    },
+    {
+      "term": "cliente",
+      "definition": "Pessoa que consulta, compra e acompanha pedidos de ingressos.",
+      "synonyms": [],
+      "avoid": []
+    },
+    {
+      "term": "pedido",
+      "definition": "Registro da compra ou tentativa de compra de ingresso, com status consultável.",
+      "synonyms": ["compra"],
+      "avoid": []
+    },
+    {
+      "term": "ingresso digital",
+      "definition": "Ingresso disponibilizado para consulta após aprovação do pagamento.",
+      "synonyms": ["ingresso"],
+      "avoid": []
+    }
+  ],
+  "openQuestions": [
+    {
+      "id": "OQ-01",
+      "question": "A compra exige conta autenticada ou pode ser realizada como visitante? Como essa decisão se relaciona à consulta do histórico de pedidos?",
+      "blocking": true,
+      "assignedTo": "@pm"
+    },
+    {
+      "id": "OQ-02",
+      "question": "Além do aviso no próprio sistema, serão necessários canais externos para comunicar alterações de partidas?",
+      "blocking": false,
+      "assignedTo": "@pm"
+    },
+    {
+      "id": "OQ-03",
+      "question": "Qual é a quantidade máxima de ingressos por pedido e quais regras definem a composição do valor total?",
+      "blocking": true,
+      "assignedTo": "@pm"
+    },
+    {
+      "id": "OQ-04",
+      "question": "Qual comportamento deve ser aplicado a pedidos já pagos quando uma partida é alterada ou excluída?",
+      "blocking": true,
+      "assignedTo": "@pm"
+    },
+    {
+      "id": "OQ-05",
+      "question": "Quais critérios quantitativos definirão desempenho aceitável e volume de acessos em períodos de pico?",
+      "blocking": false,
+      "assignedTo": "@pm"
+    }
+  ]
+}
