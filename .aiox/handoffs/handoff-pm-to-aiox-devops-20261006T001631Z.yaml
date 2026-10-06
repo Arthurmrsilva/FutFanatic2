@@ -1,0 +1,19 @@
+handoff:
+  from_agent: pm
+  to_agent: aiox-devops
+  story_context:
+    story_id: CLUBE-01
+    story_path: docs/stories/CLUBE-01/spec/requirements.json
+    story_status: requirements gathered; no story lifecycle file created
+    current_task: push the completed local commit to origin/main
+    branch: main
+  decisions:
+    - Commit 12092db contains only PERSONAS.md and the CLUBE-01 requirements JSON.
+    - Push only the existing main branch; do not amend, rebase, or force-push.
+    - Leave all unrelated untracked installation files untouched and unstaged.
+  files_modified:
+    - PERSONAS.md
+    - docs/stories/CLUBE-01/spec/requirements.json
+  blockers:
+    - Worktree contains unrelated untracked AIOX installation files that must remain untouched.
+  next_action: Verify current branch and commit, then push origin main under DevOps quality gates.
